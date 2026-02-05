@@ -1,19 +1,23 @@
+using Guna.UI2.WinForms;
+
 namespace WinFormsApp1
 {
     partial class LoanTermManagementForm
     {
         private System.ComponentModel.IContainer components = null;
-        private Panel panelMain;
-        private Panel panelHeader;
+        private Guna2Panel panelMain;
+        private Guna2Panel panelHeader;
         private Label lblTitle;
         private Label lblTermCount;
         private DataGridView dgvLoanTerms;
-        private Panel panelButtons;
-        private Button btnAdd;
-        private Button btnEdit;
-        private Button btnDelete;
-        private Button btnRefresh;
-        private Button btnClose;
+        private Guna2Panel panelButtons;
+        private Guna2Button btnAdd;
+        private Guna2Button btnEdit;
+        private Guna2Button btnDelete;
+        private Guna2Button btnRefresh;
+        private Guna2Button btnExportExcel;
+        private Guna2Button btnExportPdf;
+        private Guna2Button btnClose;
 
         protected override void Dispose(bool disposing)
         {
@@ -23,17 +27,19 @@ namespace WinFormsApp1
 
         private void InitializeComponent()
         {
-            this.panelMain = new Panel();
+            this.panelMain = new Guna2Panel();
             this.dgvLoanTerms = new DataGridView();
-            this.panelHeader = new Panel();
+            this.panelHeader = new Guna2Panel();
             this.lblTermCount = new Label();
             this.lblTitle = new Label();
-            this.panelButtons = new Panel();
-            this.btnAdd = new Button();
-            this.btnEdit = new Button();
-            this.btnDelete = new Button();
-            this.btnRefresh = new Button();
-            this.btnClose = new Button();
+            this.panelButtons = new Guna2Panel();
+            this.btnAdd = new Guna2Button();
+            this.btnEdit = new Guna2Button();
+            this.btnDelete = new Guna2Button();
+            this.btnRefresh = new Guna2Button();
+            this.btnExportExcel = new Guna2Button();
+            this.btnExportPdf = new Guna2Button();
+            this.btnClose = new Guna2Button();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLoanTerms)).BeginInit();
             this.panelHeader.SuspendLayout();
@@ -48,7 +54,8 @@ namespace WinFormsApp1
             this.panelMain.Dock = DockStyle.Fill;
             this.panelMain.Location = new Point(0, 0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Padding = new Padding(15);
+            this.panelMain.FillColor = Color.FromArgb(248, 250, 252);
+            this.panelMain.Padding = new Padding(20);
             this.panelMain.Size = new Size(900, 500);
             this.panelMain.TabIndex = 0;
             // 
@@ -108,7 +115,8 @@ namespace WinFormsApp1
             this.panelButtons.Controls.Add(this.btnAdd);
             this.panelButtons.Controls.Add(this.btnEdit);
             this.panelButtons.Controls.Add(this.btnDelete);
-            this.panelButtons.Controls.Add(this.btnRefresh);
+            this.panelButtons.Controls.Add(this.btnExportExcel);
+            this.panelButtons.Controls.Add(this.btnExportPdf);
             this.panelButtons.Controls.Add(this.btnClose);
             this.panelButtons.Dock = DockStyle.Bottom;
             this.panelButtons.Location = new Point(15, 400);
@@ -117,78 +125,103 @@ namespace WinFormsApp1
             this.panelButtons.TabIndex = 1;
             // 
             // btnAdd
-            // 
-            this.btnAdd.BackColor = Color.FromArgb(40, 167, 69);
-            this.btnAdd.FlatAppearance.BorderSize = 0;
-            this.btnAdd.FlatStyle = FlatStyle.Flat;
-            this.btnAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnAdd.BorderRadius = 10;
+            this.btnAdd.Cursor = Cursors.Hand;
+            this.btnAdd.FillColor = Color.FromArgb(34, 197, 94);
+            this.btnAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnAdd.ForeColor = Color.White;
-            this.btnAdd.Location = new Point(0, 10);
+            this.btnAdd.Location = new Point(0, 15);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new Size(120, 35);
+            this.btnAdd.Size = new Size(120, 40);
             this.btnAdd.TabIndex = 0;
-            this.btnAdd.Text = "➕ Add";
-            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Text = "Add";
             this.btnAdd.Click += new EventHandler(this.btnAdd_Click);
-            // 
+            //
             // btnEdit
-            // 
-            this.btnEdit.BackColor = Color.FromArgb(0, 123, 255);
-            this.btnEdit.FlatAppearance.BorderSize = 0;
-            this.btnEdit.FlatStyle = FlatStyle.Flat;
-            this.btnEdit.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnEdit.BorderRadius = 10;
+            this.btnEdit.Cursor = Cursors.Hand;
+            this.btnEdit.FillColor = Color.FromArgb(59, 130, 246);
+            this.btnEdit.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnEdit.ForeColor = Color.White;
-            this.btnEdit.Location = new Point(130, 10);
+            this.btnEdit.Location = new Point(130, 15);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new Size(120, 35);
+            this.btnEdit.Size = new Size(120, 40);
             this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "✏️ Edit";
-            this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Text = "Edit";
             this.btnEdit.Click += new EventHandler(this.btnEdit_Click);
-            // 
+            //
             // btnDelete
-            // 
-            this.btnDelete.BackColor = Color.FromArgb(220, 53, 69);
-            this.btnDelete.FlatAppearance.BorderSize = 0;
-            this.btnDelete.FlatStyle = FlatStyle.Flat;
-            this.btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnDelete.BorderRadius = 10;
+            this.btnDelete.Cursor = Cursors.Hand;
+            this.btnDelete.FillColor = Color.FromArgb(239, 68, 68);
+            this.btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnDelete.ForeColor = Color.White;
-            this.btnDelete.Location = new Point(260, 10);
+            this.btnDelete.Location = new Point(260, 15);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new Size(120, 35);
+            this.btnDelete.Size = new Size(120, 40);
             this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "🗑️ Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Text = "Delete";
             this.btnDelete.Click += new EventHandler(this.btnDelete_Click);
-            // 
+            //
             // btnRefresh
-            // 
-            this.btnRefresh.BackColor = Color.FromArgb(108, 117, 125);
-            this.btnRefresh.FlatAppearance.BorderSize = 0;
-            this.btnRefresh.FlatStyle = FlatStyle.Flat;
-            this.btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnRefresh.BorderRadius = 10;
+            this.btnRefresh.Cursor = Cursors.Hand;
+            this.btnRefresh.FillColor = Color.FromArgb(107, 114, 128);
+            this.btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnRefresh.ForeColor = Color.White;
-            this.btnRefresh.Location = new Point(390, 10);
+            this.btnRefresh.Location = new Point(390, 15);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new Size(120, 35);
+            this.btnRefresh.Size = new Size(120, 40);
             this.btnRefresh.TabIndex = 3;
-            this.btnRefresh.Text = "🔄 Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new EventHandler(this.btnRefresh_Click);
-            // 
+            this.btnRefresh.Visible = false;
+            //
+            // btnExportExcel
+            //
+            this.btnExportExcel.BorderRadius = 10;
+            this.btnExportExcel.Cursor = Cursors.Hand;
+            this.btnExportExcel.FillColor = Color.FromArgb(59, 130, 246);
+            this.btnExportExcel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this.btnExportExcel.ForeColor = Color.White;
+            this.btnExportExcel.Location = new Point(390, 15);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new Size(150, 40);
+            this.btnExportExcel.TabIndex = 3;
+            this.btnExportExcel.Text = "Export Excel";
+            this.btnExportExcel.Click += new EventHandler(this.btnExportExcel_Click);
+            //
+            // btnExportPdf
+            //
+            this.btnExportPdf.BorderRadius = 10;
+            this.btnExportPdf.Cursor = Cursors.Hand;
+            this.btnExportPdf.FillColor = Color.FromArgb(245, 158, 11);
+            this.btnExportPdf.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this.btnExportPdf.ForeColor = Color.White;
+            this.btnExportPdf.Location = new Point(550, 15);
+            this.btnExportPdf.Name = "btnExportPdf";
+            this.btnExportPdf.Size = new Size(120, 40);
+            this.btnExportPdf.TabIndex = 4;
+            this.btnExportPdf.Text = "Export PDF";
+            this.btnExportPdf.Click += new EventHandler(this.btnExportPdf_Click);
+            //
             // btnClose
-            // 
-            this.btnClose.BackColor = Color.FromArgb(108, 117, 125);
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatStyle = FlatStyle.Flat;
-            this.btnClose.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.btnClose.BorderRadius = 10;
+            this.btnClose.Cursor = Cursors.Hand;
+            this.btnClose.FillColor = Color.FromArgb(107, 114, 128);
+            this.btnClose.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnClose.ForeColor = Color.White;
-            this.btnClose.Location = new Point(750, 10);
+            this.btnClose.Location = new Point(730, 15);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new Size(120, 35);
-            this.btnClose.TabIndex = 4;
+            this.btnClose.Size = new Size(120, 40);
+            this.btnClose.TabIndex = 5;
             this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new EventHandler(this.btnClose_Click);
             // 
             // LoanTermManagementForm

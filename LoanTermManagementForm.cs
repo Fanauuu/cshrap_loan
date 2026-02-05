@@ -29,6 +29,7 @@ namespace WinFormsApp1
             dgvLoanTerms.AllowUserToAddRows = false;
             dgvLoanTerms.ReadOnly = true;
             dgvLoanTerms.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DataGridViewStyleHelper.ApplyCleanStyle(dgvLoanTerms);
 
             dgvLoanTerms.Columns.Add(new DataGridViewTextBoxColumn { Name = "TID", HeaderText = "TID", DataPropertyName = "TID", Width = 60 });
             dgvLoanTerms.Columns.Add(new DataGridViewTextBoxColumn { Name = "Term", HeaderText = "Term (Months)", DataPropertyName = "Term", Width = 120 });
@@ -118,5 +119,29 @@ namespace WinFormsApp1
         private void btnRefresh_Click(object sender, EventArgs e) => LoadLoanTerms();
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
         private void dgvLoanTerms_DoubleClick(object sender, EventArgs e) => btnEdit_Click(sender, e);
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToExcel(dgvLoanTerms, "LoanTerms");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToPdf(dgvLoanTerms, "Loan Terms", "LoanTerms");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

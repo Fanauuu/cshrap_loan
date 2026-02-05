@@ -46,7 +46,7 @@ namespace WinFormsApp1
             {
                 txtCID.Text = _customer.CID.ToString();
                 txtCID.Enabled = false;
-                txtCID.BackColor = Color.FromArgb(240, 240, 240);
+                txtCID.FillColor = Color.FromArgb(243, 244, 246);
                 txtFirstName.Text = _customer.FirstName;
                 txtLastName.Text = _customer.LastName;
                 cmbGender.SelectedItem = _customer.Gender;
@@ -59,7 +59,7 @@ namespace WinFormsApp1
             {
                 txtCID.Text = "Auto";
                 txtCID.Enabled = false;
-                txtCID.BackColor = Color.FromArgb(240, 240, 240);
+                txtCID.FillColor = Color.FromArgb(243, 244, 246);
                 dtpDateOfBirth.Value = DateTime.Today.AddYears(-25);
             }
         }

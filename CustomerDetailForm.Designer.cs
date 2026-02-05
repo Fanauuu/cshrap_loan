@@ -1,10 +1,12 @@
+using Guna.UI2.WinForms;
+
 namespace WinFormsApp1
 {
     partial class CustomerDetailForm
     {
         private System.ComponentModel.IContainer components = null;
-        private Panel panelMain;
-        private Panel panelCustomerInfo;
+        private Guna2Panel panelMain;
+        private Guna2Panel panelCustomerInfo;
         private Label lblTitle;
         private Label lblCustomerName;
         private Label lblCID;
@@ -14,15 +16,17 @@ namespace WinFormsApp1
         private Label lblPlaceOfBirth;
         private Label lblAddress;
         private Label lblStatus;
-        private Panel panelLoanSummary;
+        private Guna2Panel panelLoanSummary;
         private Label lblLoanCount;
         private Label lblTotalLoanAmount;
         private Label lblActiveLoans;
         private DataGridView dgvLoanContracts;
-        private Panel panelButtons;
-        private Button btnViewSchedule;
-        private Button btnRefresh;
-        private Button btnClose;
+        private Guna2Panel panelButtons;
+        private Guna2Button btnViewSchedule;
+        private Guna2Button btnRefresh;
+        private Guna2Button btnExportExcel;
+        private Guna2Button btnExportPdf;
+        private Guna2Button btnClose;
 
         protected override void Dispose(bool disposing)
         {
@@ -35,13 +39,13 @@ namespace WinFormsApp1
 
         private void InitializeComponent()
         {
-            this.panelMain = new Panel();
+            this.panelMain = new Guna2Panel();
             this.dgvLoanContracts = new DataGridView();
-            this.panelLoanSummary = new Panel();
+            this.panelLoanSummary = new Guna2Panel();
             this.lblActiveLoans = new Label();
             this.lblTotalLoanAmount = new Label();
             this.lblLoanCount = new Label();
-            this.panelCustomerInfo = new Panel();
+            this.panelCustomerInfo = new Guna2Panel();
             this.lblStatus = new Label();
             this.lblAddress = new Label();
             this.lblPlaceOfBirth = new Label();
@@ -51,10 +55,12 @@ namespace WinFormsApp1
             this.lblCID = new Label();
             this.lblCustomerName = new Label();
             this.lblTitle = new Label();
-            this.panelButtons = new Panel();
-            this.btnViewSchedule = new Button();
-            this.btnRefresh = new Button();
-            this.btnClose = new Button();
+            this.panelButtons = new Guna2Panel();
+            this.btnViewSchedule = new Guna2Button();
+            this.btnRefresh = new Guna2Button();
+            this.btnExportExcel = new Guna2Button();
+            this.btnExportPdf = new Guna2Button();
+            this.btnClose = new Guna2Button();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLoanContracts)).BeginInit();
             this.panelLoanSummary.SuspendLayout();
@@ -69,9 +75,10 @@ namespace WinFormsApp1
             this.panelMain.Controls.Add(this.panelCustomerInfo);
             this.panelMain.Controls.Add(this.panelButtons);
             this.panelMain.Dock = DockStyle.Fill;
+            this.panelMain.FillColor = Color.FromArgb(248, 250, 252);
             this.panelMain.Location = new Point(0, 0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Padding = new Padding(15);
+            this.panelMain.Padding = new Padding(20);
             this.panelMain.Size = new Size(1000, 700);
             this.panelMain.TabIndex = 0;
             // 
@@ -250,7 +257,8 @@ namespace WinFormsApp1
             // panelButtons
             // 
             this.panelButtons.Controls.Add(this.btnViewSchedule);
-            this.panelButtons.Controls.Add(this.btnRefresh);
+            this.panelButtons.Controls.Add(this.btnExportExcel);
+            this.panelButtons.Controls.Add(this.btnExportPdf);
             this.panelButtons.Controls.Add(this.btnClose);
             this.panelButtons.Dock = DockStyle.Bottom;
             this.panelButtons.Location = new Point(15, 600);
@@ -259,48 +267,74 @@ namespace WinFormsApp1
             this.panelButtons.TabIndex = 0;
             // 
             // btnViewSchedule
-            // 
-            this.btnViewSchedule.BackColor = Color.FromArgb(23, 162, 184);
-            this.btnViewSchedule.FlatAppearance.BorderSize = 0;
-            this.btnViewSchedule.FlatStyle = FlatStyle.Flat;
-            this.btnViewSchedule.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnViewSchedule.BorderRadius = 10;
+            this.btnViewSchedule.Cursor = Cursors.Hand;
+            this.btnViewSchedule.FillColor = Color.FromArgb(20, 184, 166);
+            this.btnViewSchedule.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnViewSchedule.ForeColor = Color.White;
-            this.btnViewSchedule.Location = new Point(0, 10);
+            this.btnViewSchedule.Location = new Point(0, 15);
             this.btnViewSchedule.Name = "btnViewSchedule";
-            this.btnViewSchedule.Size = new Size(150, 35);
+            this.btnViewSchedule.Size = new Size(150, 40);
             this.btnViewSchedule.TabIndex = 0;
-            this.btnViewSchedule.Text = "💰 View Schedule";
-            this.btnViewSchedule.UseVisualStyleBackColor = false;
+            this.btnViewSchedule.Text = "View Schedule";
             this.btnViewSchedule.Click += new EventHandler(this.btnViewSchedule_Click);
-            // 
+            //
             // btnRefresh
-            // 
-            this.btnRefresh.BackColor = Color.FromArgb(108, 117, 125);
-            this.btnRefresh.FlatAppearance.BorderSize = 0;
-            this.btnRefresh.FlatStyle = FlatStyle.Flat;
-            this.btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnRefresh.BorderRadius = 10;
+            this.btnRefresh.Cursor = Cursors.Hand;
+            this.btnRefresh.FillColor = Color.FromArgb(107, 114, 128);
+            this.btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnRefresh.ForeColor = Color.White;
-            this.btnRefresh.Location = new Point(160, 10);
+            this.btnRefresh.Location = new Point(160, 15);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new Size(120, 35);
+            this.btnRefresh.Size = new Size(120, 40);
             this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.Text = "🔄 Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new EventHandler(this.btnRefresh_Click);
-            // 
+            this.btnRefresh.Visible = false;
+            //
+            // btnExportExcel
+            //
+            this.btnExportExcel.BorderRadius = 10;
+            this.btnExportExcel.Cursor = Cursors.Hand;
+            this.btnExportExcel.FillColor = Color.FromArgb(59, 130, 246);
+            this.btnExportExcel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this.btnExportExcel.ForeColor = Color.White;
+            this.btnExportExcel.Location = new Point(160, 15);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new Size(150, 40);
+            this.btnExportExcel.TabIndex = 1;
+            this.btnExportExcel.Text = "Export Excel";
+            this.btnExportExcel.Click += new EventHandler(this.btnExportExcel_Click);
+            //
+            // btnExportPdf
+            //
+            this.btnExportPdf.BorderRadius = 10;
+            this.btnExportPdf.Cursor = Cursors.Hand;
+            this.btnExportPdf.FillColor = Color.FromArgb(245, 158, 11);
+            this.btnExportPdf.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this.btnExportPdf.ForeColor = Color.White;
+            this.btnExportPdf.Location = new Point(320, 15);
+            this.btnExportPdf.Name = "btnExportPdf";
+            this.btnExportPdf.Size = new Size(120, 40);
+            this.btnExportPdf.TabIndex = 2;
+            this.btnExportPdf.Text = "Export PDF";
+            this.btnExportPdf.Click += new EventHandler(this.btnExportPdf_Click);
+            //
             // btnClose
-            // 
-            this.btnClose.BackColor = Color.FromArgb(108, 117, 125);
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatStyle = FlatStyle.Flat;
-            this.btnClose.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnClose.BorderRadius = 10;
+            this.btnClose.Cursor = Cursors.Hand;
+            this.btnClose.FillColor = Color.FromArgb(107, 114, 128);
+            this.btnClose.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnClose.ForeColor = Color.White;
-            this.btnClose.Location = new Point(850, 10);
+            this.btnClose.Location = new Point(850, 15);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new Size(120, 35);
-            this.btnClose.TabIndex = 2;
+            this.btnClose.Size = new Size(120, 40);
+            this.btnClose.TabIndex = 3;
             this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new EventHandler(this.btnClose_Click);
             // 
             // CustomerDetailForm

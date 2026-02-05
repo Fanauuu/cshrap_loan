@@ -28,12 +28,12 @@ namespace WinFormsApp1
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
 
-            // Populate Role ComboBox
-            cmbRole.Items.AddRange(new string[] { "Admin", "User", "Manager" });
+            // Populate Role ComboBox - Only admin and user (lowercase)
+            cmbRole.Items.AddRange(new string[] { "admin", "user" });
             cmbRole.DropDownStyle = ComboBoxStyle.DropDownList;
 
             // Set default values
-            cmbRole.SelectedIndex = 1; // Default to "User"
+            cmbRole.SelectedIndex = 1; // Default to "user"
             chkIsActive.Checked = true;
         }
 
@@ -152,7 +152,7 @@ namespace WinFormsApp1
                     Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? null : txtEmail.Text.Trim(),
                     FirstName = string.IsNullOrWhiteSpace(txtFirstName.Text) ? null : txtFirstName.Text.Trim(),
                     LastName = string.IsNullOrWhiteSpace(txtLastName.Text) ? null : txtLastName.Text.Trim(),
-                    Role = cmbRole.SelectedItem?.ToString() ?? "User",
+                    Role = cmbRole.SelectedItem?.ToString()?.ToLower() ?? "user",
                     IsActive = chkIsActive.Checked
                 };
 

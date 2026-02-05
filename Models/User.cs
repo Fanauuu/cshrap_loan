@@ -10,7 +10,7 @@ namespace WinFormsApp1.Models
         public string? Email { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string Role { get; set; } = "User";
+        public string Role { get; set; } = "user";
         public bool IsActive { get; set; } = true;
         public DateTime CreatedDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }

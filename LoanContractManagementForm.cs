@@ -1,6 +1,7 @@
 using WinFormsApp1.Models;
 using WinFormsApp1.Repository;
 using WinFormsApp1.services;
+using WinFormsApp1.Utils;
 
 namespace WinFormsApp1
 {
@@ -35,6 +36,7 @@ namespace WinFormsApp1
             dgvLoanContracts.AllowUserToAddRows = false;
             dgvLoanContracts.ReadOnly = true;
             dgvLoanContracts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DataGridViewStyleHelper.ApplyCleanStyle(dgvLoanContracts);
 
             dgvLoanContracts.Columns.Add(new DataGridViewTextBoxColumn { Name = "LC", HeaderText = "LC", DataPropertyName = "LC", Width = 60 });
             dgvLoanContracts.Columns.Add(new DataGridViewTextBoxColumn { Name = "CustomerName", HeaderText = "Customer", DataPropertyName = "CustomerName", Width = 180 });
@@ -85,5 +87,29 @@ namespace WinFormsApp1
 
         private void btnRefresh_Click(object sender, EventArgs e) => LoadLoanContracts();
         private void btnClose_Click(object sender, EventArgs e) => this.Close();
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToExcel(dgvLoanContracts, "LoanContracts");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToPdf(dgvLoanContracts, "Loan Contracts", "LoanContracts");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

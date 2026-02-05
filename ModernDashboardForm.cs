@@ -6,6 +6,7 @@ using WinFormsApp1.Utils;
 using WinFormsApp1.Repository;
 using WinFormsApp1.Components;
 using static WinFormsApp1.Utils.IconHelper;
+using Guna.UI2.WinForms;
 
 namespace WinFormsApp1
 {
@@ -13,15 +14,19 @@ namespace WinFormsApp1
     {
         private User _currentUser;
         private AuthService _authService;
-        private Panel? panelSidebar;
-        private Panel? panelTopBar;
-        private Panel? panelContent;
-        private Button? btnDashboard;
-        private Button? btnCustomers;
-        private Button? btnLoanTerms;
-        private Button? btnLoanContracts;
-        private Button? btnUsers;
-        private Button? btnLogout;
+        private Guna2Panel? panelSidebar;
+        private Guna2Panel? panelTopBar;
+        private Guna2Panel? panelContent;
+        private Guna2Panel? panelSidebarNav;
+        private Guna2Panel? panelSidebarFooter;
+        private Guna2Panel? activeNavIndicator;
+        private Label? lblPageTitle;
+        private Guna2Button? btnDashboard;
+        private Guna2Button? btnCustomers;
+        private Guna2Button? btnLoanTerms;
+        private Guna2Button? btnLoanContracts;
+        private Guna2Button? btnUsers;
+        private Guna2Button? btnLogout;
         private Label? lblUserInfo;
         private Label? lblDate;
 
@@ -61,97 +66,143 @@ namespace WinFormsApp1
             this.AutoScroll = false;
             this.MinimumSize = new Size(1366, 768);
 
-            // Sidebar - Minimalist White Design
-            panelSidebar = new Panel
+            // Sidebar - Guna UI clean design
+            panelSidebar = new Guna2Panel
             {
                 Dock = DockStyle.Left,
-                Width = 260,
-                BackColor = Color.White,
-                Padding = new Padding(0)
+                Width = 270,
+                BackColor = Color.Transparent,
+                FillColor = Color.White,
+                BorderRadius = 0,
+                BorderThickness = 0
             };
-            panelSidebar.Paint += (s, e) =>
-            {
-                using (Pen borderPen = new Pen(UIStyles.BorderColor, 1))
-                {
-                    e.Graphics.DrawLine(borderPen, panelSidebar.Width - 1, 0, panelSidebar.Width - 1, panelSidebar.Height);
-                }
-            };
+            panelSidebar.ShadowDecoration.Depth = 8;
+            panelSidebar.ShadowDecoration.Enabled = true;
+            panelSidebar.ShadowDecoration.Color = Color.FromArgb(180, 180, 180);
 
-            // Sidebar Header - Clean, minimal
-            Panel sidebarHeader = new Panel
+            Guna2Panel sidebarHeader = new Guna2Panel
             {
                 Dock = DockStyle.Top,
-                Height = 80,
-                BackColor = Color.White,
-                Padding = new Padding(20, 20, 20, 20)
+                Height = 92,
+                BackColor = Color.Transparent,
+                FillColor = Color.White,
+                BorderRadius = 0
             };
 
             Label lblAppName = new Label
             {
                 Text = "Loan Management",
-                Font = new Font("Segoe UI", 18F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 16F, FontStyle.Bold),
                 ForeColor = UIStyles.TextColor,
                 AutoSize = true,
-                Location = new Point(20, 25)
+                Location = new Point(18, 18)
+            };
+
+            Label lblAppTag = new Label
+            {
+                Text = "System",
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = UIStyles.TextSecondary,
+                AutoSize = true,
+                Location = new Point(18, 52)
             };
 
             sidebarHeader.Controls.Add(lblAppName);
+            sidebarHeader.Controls.Add(lblAppTag);
             panelSidebar.Controls.Add(sidebarHeader);
 
-            // Menu Items - Clean, modern design
-            int menuTop = 20;
-            int menuHeight = 48;
-            int menuSpacing = 4;
+            // Sidebar Nav container
+            panelSidebarNav = new Guna2Panel
+            {
+                Dock = DockStyle.Fill,
+                FillColor = Color.White,
+                Padding = new Padding(12, 10, 12, 10)
+            };
 
-            btnDashboard = CreateModernMenuButton("Dashboard", menuTop, true);
+            activeNavIndicator = new Guna2Panel
+            {
+                Size = new Size(4, 44),
+                FillColor = UIStyles.PrimaryColor,
+                BorderRadius = 2,
+                Location = new Point(8, 18)
+            };
+            panelSidebarNav.Controls.Add(activeNavIndicator);
+
+            int menuTop = 6;
+            int menuHeight = 44;
+            int menuSpacing = 6;
+
+            btnDashboard = CreateModernMenuButton($"{Dashboard}  Dashboard", menuTop, true);
             menuTop += menuHeight + menuSpacing;
 
-            btnCustomers = CreateModernMenuButton("Customers", menuTop);
+            btnCustomers = CreateModernMenuButton($"{Customers}  Customers", menuTop);
             menuTop += menuHeight + menuSpacing;
 
-            btnLoanTerms = CreateModernMenuButton("Loan Terms", menuTop);
+            btnLoanTerms = CreateModernMenuButton($"{LoanTerms}  Loan Terms", menuTop);
             menuTop += menuHeight + menuSpacing;
 
-            btnLoanContracts = CreateModernMenuButton("Loan Contracts", menuTop);
+            btnLoanContracts = CreateModernMenuButton($"{LoanContracts}  Loan Contracts", menuTop);
             menuTop += menuHeight + menuSpacing;
 
-            // Removed Repayment Schedule as per requirements
-
-            // Admin only menu
             if (_authService.IsAdmin(_currentUser))
             {
-                btnUsers = CreateModernMenuButton("User Management", menuTop);
+                btnUsers = CreateModernMenuButton($"{UserManagement}  User Management", menuTop);
                 menuTop += menuHeight + menuSpacing;
             }
 
-            // Logout button at bottom
-            btnLogout = CreateModernMenuButton("Logout", 600, false, true);
+            panelSidebar.Controls.Add(panelSidebarNav);
 
-            // Top Bar - Professional Header
-            panelTopBar = new Panel
+            panelSidebarFooter = new Guna2Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 90,
+                FillColor = Color.White,
+                Padding = new Padding(12, 10, 12, 12)
+            };
+
+            btnLogout = CreateModernMenuButton($"{Logout}  Logout", 0, false, true);
+            btnLogout.Size = new Size(246, 44);
+            btnLogout.Location = new Point(12, 10);
+            panelSidebarFooter.Controls.Add(btnLogout);
+
+            panelSidebar.Controls.Add(panelSidebarFooter);
+
+            // Top Bar - Guna UI header
+            panelTopBar = new Guna2Panel
             {
                 Dock = DockStyle.Top,
-                Height = 70,
-                BackColor = UIStyles.CardColor,
-                Padding = new Padding(25, 15, 25, 15)
+                Height = 74,
+                BackColor = Color.Transparent,
+                FillColor = Color.White,
+                BorderRadius = 0,
+                BorderThickness = 0
             };
-            // Add subtle border at bottom
-            panelTopBar.Paint += (s, e) =>
-            {
-                using (Pen borderPen = new Pen(UIStyles.BorderColor, 1))
-                {
-                    e.Graphics.DrawLine(borderPen, 0, panelTopBar.Height - 1, panelTopBar.Width, panelTopBar.Height - 1);
-                }
-            };
+            panelTopBar.ShadowDecoration.Depth = 4;
+            panelTopBar.ShadowDecoration.Enabled = true;
+            panelTopBar.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
 
-            // User Info (Left)
-            lblUserInfo = new Label
+            // Page title (left)
+            lblPageTitle = new Label
             {
-                Text = $"👤 {_currentUser.FullName} ({_currentUser.Role})",
-                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                Text = "Dashboard",
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
                 ForeColor = UIStyles.TextColor,
                 AutoSize = true,
-                Location = new Point(25, 22)
+                Location = new Point(22, 14)
+            };
+
+            string roleDisplay = string.IsNullOrWhiteSpace(_currentUser.Role)
+                ? ""
+                : char.ToUpperInvariant(_currentUser.Role[0]) + _currentUser.Role.Substring(1).ToLowerInvariant();
+
+            // User Info (left, secondary)
+            lblUserInfo = new Label
+            {
+                Text = $"• {_currentUser.FullName} ({roleDisplay})",
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = UIStyles.TextColor,
+                AutoSize = true,
+                Location = new Point(22, 42)
             };
 
             // Date (Right)
@@ -164,118 +215,100 @@ namespace WinFormsApp1
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
 
+            panelTopBar.Controls.Add(lblPageTitle);
             panelTopBar.Controls.Add(lblUserInfo);
             panelTopBar.Controls.Add(lblDate);
 
-            // Update date label position
             panelTopBar.Resize += (s, e) =>
             {
                 if (lblDate != null)
-                {
                     lblDate.Location = new Point(panelTopBar.Width - lblDate.Width - 25, 22);
-                }
             };
-            
-            // Set initial position
             lblDate.Location = new Point(panelTopBar.Width - lblDate.Width - 25, 22);
 
             // Content Area
-            panelContent = new Panel
+            panelContent = new Guna2Panel
             {
                 Dock = DockStyle.Fill,
-                BackColor = UIStyles.BackgroundColor,
-                Padding = new Padding(20),
+                BackColor = Color.Transparent,
+                FillColor = UIStyles.BackgroundColor,
+                BorderRadius = 0,
                 AutoScroll = false,
                 MaximumSize = new Size(0, 0)
             };
+            panelContent.Padding = new Padding(20);
 
             // Add panels to form (order matters for z-index)
             this.Controls.Add(panelContent);
             this.Controls.Add(panelTopBar);
             this.Controls.Add(panelSidebar);
 
-            // Position logout button at bottom
-            this.Resize += (s, e) =>
-            {
-                if (btnLogout != null && panelSidebar != null)
-                {
-                    btnLogout.Location = new Point(10, panelSidebar.Height - 70);
-                }
-            };
-            
-            // Set initial logout button position
-            if (btnLogout != null && panelSidebar != null)
-            {
-                btnLogout.Location = new Point(10, panelSidebar.Height - 70);
-            }
-
             // Set initial active button
             SetActiveButton(btnDashboard);
+            MoveActiveIndicator(btnDashboard);
         }
 
-        private Button CreateModernMenuButton(string text, int top, bool isActive = false, bool isLogout = false)
+        private Guna2Button CreateModernMenuButton(string text, int top, bool isActive = false, bool isLogout = false)
         {
-            Button btn = new Button
+            var btn = new Guna2Button
             {
                 Text = text,
                 Location = new Point(12, top),
-                Size = new Size(236, 48),
-                TextAlign = ContentAlignment.MiddleLeft,
-                FlatStyle = FlatStyle.Flat,
+                Size = new Size(246, 44),
+                TextAlign = HorizontalAlignment.Left,
                 Font = new Font("Segoe UI", 11F),
                 ForeColor = isLogout ? UIStyles.DangerColor : (isActive ? UIStyles.PrimaryColor : UIStyles.TextColor),
-                BackColor = isActive ? Color.FromArgb(240, 245, 255) : Color.Transparent,
+                FillColor = isActive ? Color.FromArgb(240, 245, 255) : Color.Transparent,
+                BorderThickness = 0,
+                BorderRadius = 12,
                 Cursor = Cursors.Hand,
-                Padding = new Padding(20, 0, 0, 0)
+                TextOffset = new Point(20, 0)
             };
+            btn.CheckedState.FillColor = Color.FromArgb(240, 245, 255);
+            btn.CheckedState.ForeColor = UIStyles.PrimaryColor;
+            if (isLogout)
+                btn.HoverState.FillColor = Color.FromArgb(255, 240, 240);
+            else
+                btn.HoverState.FillColor = Color.FromArgb(248, 250, 252);
+            if (isActive) btn.Checked = true;
 
-            btn.FlatAppearance.BorderSize = 0;
-            btn.FlatAppearance.MouseOverBackColor = isLogout ? Color.FromArgb(255, 240, 240) : Color.FromArgb(248, 250, 252);
-
-            // Add rounded corners effect
-            btn.Paint += (s, e) =>
-            {
-                if (isActive)
-                {
-                    Graphics g = e.Graphics;
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-                    Rectangle rect = new Rectangle(0, 0, btn.Width - 1, btn.Height - 1);
-                    using (GraphicsPath path = UIStyles.GetRoundedRectangle(rect, 12))
-                    {
-                        using (SolidBrush brush = new SolidBrush(btn.BackColor))
-                        {
-                            g.FillPath(brush, path);
-                        }
-                    }
-                }
-            };
-
-            panelSidebar?.Controls.Add(btn);
+            panelSidebarNav?.Controls.Add(btn);
             return btn;
         }
 
-        private void SetActiveButton(Button? activeButton)
+        private void SetActiveButton(Guna2Button? activeButton)
         {
-            if (activeButton == null || panelSidebar == null) return;
+            if (activeButton == null || panelSidebarNav == null) return;
 
-            // Reset all buttons
-            foreach (Control control in panelSidebar.Controls)
+            foreach (Control control in panelSidebarNav.Controls)
             {
-                if (control is Button btn && btn != btnLogout && btn != activeButton)
+                if (control is Guna2Button btn && btn != btnLogout && btn != activeButton)
                 {
-                    btn.BackColor = Color.Transparent;
+                    btn.Checked = false;
+                    btn.FillColor = Color.Transparent;
                     btn.ForeColor = UIStyles.TextColor;
                     btn.Invalidate();
                 }
             }
 
-            // Set active button
             if (activeButton != btnLogout)
             {
-                activeButton.BackColor = Color.FromArgb(240, 245, 255);
+                activeButton.Checked = true;
+                activeButton.FillColor = Color.FromArgb(240, 245, 255);
                 activeButton.ForeColor = UIStyles.PrimaryColor;
                 activeButton.Invalidate();
             }
+
+            MoveActiveIndicator(activeButton);
+        }
+
+        private void MoveActiveIndicator(Guna2Button? activeButton)
+        {
+            if (activeButton == null || activeNavIndicator == null || panelSidebarNav == null) return;
+            if (activeButton == btnLogout) return;
+
+            activeNavIndicator.Location = new Point(8, activeButton.Top + (activeButton.Height - activeNavIndicator.Height) / 2);
+            activeNavIndicator.BringToFront();
         }
 
         private void LoadDashboard()
@@ -283,7 +316,7 @@ namespace WinFormsApp1
             if (panelContent == null) return;
             
             panelContent.Controls.Clear();
-            panelContent.AutoScroll = false;
+            panelContent.AutoScroll = true;
 
             // Sparkline Cards - Modern SaaS Design
             LoadSparklineCards();
@@ -291,33 +324,144 @@ namespace WinFormsApp1
             // Charts Section
             LoadCharts();
 
+            // Extra sections (make dashboard richer)
+            LoadRecentContracts();
+
             // Attach menu button events
             if (btnDashboard != null)
             {
-                btnDashboard.Click += (s, e) => { SetActiveButton(btnDashboard!); LoadDashboard(); };
+                btnDashboard.Click += (s, e) => { SetActiveButton(btnDashboard!); SetPageTitle("Dashboard"); LoadDashboard(); };
             }
             if (btnCustomers != null)
             {
-                btnCustomers.Click += (s, e) => { SetActiveButton(btnCustomers!); ShowCustomers(); };
+                btnCustomers.Click += (s, e) => { SetActiveButton(btnCustomers!); SetPageTitle("Customers"); ShowCustomers(); };
             }
             if (btnLoanTerms != null)
             {
-                btnLoanTerms.Click += (s, e) => { SetActiveButton(btnLoanTerms!); ShowLoanTerms(); };
+                btnLoanTerms.Click += (s, e) => { SetActiveButton(btnLoanTerms!); SetPageTitle("Loan Terms"); ShowLoanTerms(); };
             }
             if (btnLoanContracts != null)
             {
-                btnLoanContracts.Click += (s, e) => { SetActiveButton(btnLoanContracts!); ShowLoanContracts(); };
+                btnLoanContracts.Click += (s, e) => { SetActiveButton(btnLoanContracts!); SetPageTitle("Loan Contracts"); ShowLoanContracts(); };
             }
             
             if (_authService.IsAdmin(_currentUser) && btnUsers != null)
             {
-                btnUsers.Click += (s, e) => { SetActiveButton(btnUsers!); ShowUserManagement(); };
+                btnUsers.Click += (s, e) => { SetActiveButton(btnUsers!); SetPageTitle("User Management"); ShowUserManagement(); };
             }
 
             if (btnLogout != null)
             {
                 btnLogout.Click += BtnLogout_Click;
             }
+        }
+
+        private void SetPageTitle(string title)
+        {
+            if (lblPageTitle != null)
+                lblPageTitle.Text = title;
+        }
+
+        private void LoadRecentContracts()
+        {
+            if (panelContent == null) return;
+
+            int y = 180 + 260 + 18 + 240 + 26;
+            int x = 20;
+            int width = panelContent.Width - 40;
+
+            CardPanel recentPanel = new CardPanel
+            {
+                Location = new Point(x, y),
+                Size = new Size(width, 260),
+                CornerRadius = 15,
+                ShowShadow = true
+            };
+
+            var lbl = new Label
+            {
+                Text = "Recent Loan Contracts",
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                ForeColor = UIStyles.TextColor,
+                AutoSize = true,
+                Location = new Point(18, 14)
+            };
+            recentPanel.Controls.Add(lbl);
+
+            var grid = new DataGridView
+            {
+                Location = new Point(18, 48),
+                Size = new Size(width - 36, 200),
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                MultiSelect = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                BorderStyle = BorderStyle.None,
+                BackgroundColor = Color.White,
+                RowHeadersVisible = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                ColumnHeadersHeight = 44,
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            };
+            grid.RowTemplate.Height = 44;
+            DataGridViewStyleHelper.ApplyCleanStyle(grid);
+            grid.RowHeadersVisible = false;
+            grid.GridColor = Color.FromArgb(229, 231, 235);
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(75, 85, 99);
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(12, 0, 12, 0);
+            grid.DefaultCellStyle.BackColor = Color.White;
+            grid.DefaultCellStyle.ForeColor = Color.FromArgb(31, 41, 55);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 10F);
+            grid.DefaultCellStyle.Padding = new Padding(12, 0, 12, 0);
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(243, 244, 246);
+            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(31, 41, 55);
+            grid.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = Color.FromArgb(249, 250, 251),
+                ForeColor = Color.FromArgb(31, 41, 55),
+                SelectionBackColor = Color.FromArgb(243, 244, 246),
+                SelectionForeColor = Color.FromArgb(31, 41, 55),
+                Font = new Font("Segoe UI", 10F),
+                Padding = new Padding(12, 0, 12, 0)
+            };
+
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "LC", HeaderText = "LC", FillWeight = 10 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Customer", HeaderText = "Customer", FillWeight = 40 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Amount", HeaderText = "Amount", FillWeight = 18 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", FillWeight = 16 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Date", HeaderText = "Date", FillWeight = 16 });
+
+            try
+            {
+                var repo = new LoanContractRepository();
+                var contracts = repo.GetAllLoanContracts()
+                    .OrderByDescending(c => c.LoanDate)
+                    .Take(6)
+                    .ToList();
+
+                foreach (var c in contracts)
+                {
+                    grid.Rows.Add(
+                        c.LC,
+                        c.CustomerName ?? "",
+                        c.LoanAmount.ToString("C0"),
+                        c.Status ?? "",
+                        c.LoanDate.ToString("yyyy-MM-dd")
+                    );
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+
+            recentPanel.Controls.Add(grid);
+            panelContent.Controls.Add(recentPanel);
         }
 
         private void LoadSparklineCards()

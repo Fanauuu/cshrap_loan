@@ -59,12 +59,13 @@ namespace WinFormsApp1.services
 
         public bool IsAdmin(User? user)
         {
-            return user != null && user.Role == "Admin";
+            return user != null && user.Role?.ToLower() == "admin";
         }
 
         public bool IsStaff(User? user)
         {
-            return user != null && (user.Role == "Admin" || user.Role == "Staff");
+            // Since we only have admin and user, staff check is same as admin
+            return IsAdmin(user);
         }
     }
 }

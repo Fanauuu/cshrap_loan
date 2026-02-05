@@ -1,10 +1,12 @@
+using Guna.UI2.WinForms;
+
 namespace WinFormsApp1
 {
     partial class LoanTermForm
     {
         private System.ComponentModel.IContainer components = null;
-        private Panel panelMain;
-        private Panel panelForm;
+        private Guna2Panel panelMain;
+        private Guna2Panel panelForm;
         private Label lblTID;
         private TextBox txtTID;
         private Label lblTerm;
@@ -15,9 +17,9 @@ namespace WinFormsApp1
         private Label lblDescription;
         private TextBox txtDescription;
         private CheckBox chkIsActive;
-        private Panel panelButtons;
-        private Button btnSave;
-        private Button btnCancel;
+        private Guna2Panel panelButtons;
+        private Guna2Button btnSave;
+        private Guna2Button btnCancel;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,8 +29,8 @@ namespace WinFormsApp1
 
         private void InitializeComponent()
         {
-            this.panelMain = new Panel();
-            this.panelForm = new Panel();
+            this.panelMain = new Guna2Panel();
+            this.panelForm = new Guna2Panel();
             this.chkIsActive = new CheckBox();
             this.txtDescription = new TextBox();
             this.lblDescription = new Label();
@@ -39,9 +41,9 @@ namespace WinFormsApp1
             this.lblTerm = new Label();
             this.txtTID = new TextBox();
             this.lblTID = new Label();
-            this.panelButtons = new Panel();
-            this.btnCancel = new Button();
-            this.btnSave = new Button();
+            this.panelButtons = new Guna2Panel();
+            this.btnCancel = new Guna2Button();
+            this.btnSave = new Guna2Button();
             this.panelMain.SuspendLayout();
             this.panelForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAnnualRate)).BeginInit();
@@ -55,6 +57,7 @@ namespace WinFormsApp1
             this.panelMain.Controls.Add(this.panelButtons);
             this.panelMain.Dock = DockStyle.Fill;
             this.panelMain.Location = new Point(0, 0);
+            this.panelMain.FillColor = Color.FromArgb(248, 250, 252);
             this.panelMain.Name = "panelMain";
             this.panelMain.Padding = new Padding(20);
             this.panelMain.Size = new Size(500, 350);
@@ -73,8 +76,11 @@ namespace WinFormsApp1
             this.panelForm.Controls.Add(this.txtTID);
             this.panelForm.Controls.Add(this.lblTID);
             this.panelForm.Dock = DockStyle.Fill;
+            this.panelForm.FillColor = Color.White;
+            this.panelForm.BorderRadius = 12;
             this.panelForm.Location = new Point(20, 20);
             this.panelForm.Name = "panelForm";
+            this.panelForm.Padding = new Padding(20);
             this.panelForm.Size = new Size(460, 260);
             this.panelForm.TabIndex = 0;
             // 
@@ -191,33 +197,31 @@ namespace WinFormsApp1
             this.panelButtons.TabIndex = 1;
             // 
             // btnCancel
-            // 
-            this.btnCancel.BackColor = Color.FromArgb(108, 117, 125);
-            this.btnCancel.FlatAppearance.BorderSize = 0;
-            this.btnCancel.FlatStyle = FlatStyle.Flat;
-            this.btnCancel.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnCancel.BorderRadius = 10;
+            this.btnCancel.Cursor = Cursors.Hand;
+            this.btnCancel.FillColor = Color.FromArgb(107, 114, 128);
+            this.btnCancel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnCancel.ForeColor = Color.White;
-            this.btnCancel.Location = new Point(300, 10);
+            this.btnCancel.Location = new Point(300, 8);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new Size(120, 35);
+            this.btnCancel.Size = new Size(120, 38);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new EventHandler(this.btnCancel_Click);
-            // 
+            //
             // btnSave
-            // 
-            this.btnSave.BackColor = Color.FromArgb(40, 167, 69);
-            this.btnSave.FlatAppearance.BorderSize = 0;
-            this.btnSave.FlatStyle = FlatStyle.Flat;
-            this.btnSave.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            //
+            this.btnSave.BorderRadius = 10;
+            this.btnSave.Cursor = Cursors.Hand;
+            this.btnSave.FillColor = Color.FromArgb(34, 197, 94);
+            this.btnSave.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             this.btnSave.ForeColor = Color.White;
-            this.btnSave.Location = new Point(150, 10);
+            this.btnSave.Location = new Point(150, 8);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new Size(120, 35);
+            this.btnSave.Size = new Size(120, 38);
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new EventHandler(this.btnSave_Click);
             // 
             // LoanTermForm

@@ -1,6 +1,7 @@
 using System.Linq;
 using WinFormsApp1.Models;
 using WinFormsApp1.Repository;
+using WinFormsApp1.Utils;
 
 namespace WinFormsApp1
 {
@@ -38,6 +39,7 @@ namespace WinFormsApp1
             dgvLoanContracts.MultiSelect = false;
             dgvLoanContracts.BackgroundColor = Color.White;
             dgvLoanContracts.BorderStyle = BorderStyle.None;
+            DataGridViewStyleHelper.ApplyCleanStyle(dgvLoanContracts);
             dgvLoanContracts.CellFormatting += DgvLoanContracts_CellFormatting;
 
             // Add columns
@@ -136,6 +138,30 @@ namespace WinFormsApp1
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToExcel(dgvLoanContracts, "CustomerLoans");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToPdf(dgvLoanContracts, $"Loans - {_customer.FullName}", "CustomerLoans");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dgvLoanContracts_DoubleClick(object sender, EventArgs e)

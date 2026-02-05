@@ -27,12 +27,12 @@ CREATE TABLE Users (
     Email NVARCHAR(100) NULL,
     FirstName NVARCHAR(50) NULL,
     LastName NVARCHAR(50) NULL,
-    Role NVARCHAR(20) NOT NULL DEFAULT 'User',
+    Role NVARCHAR(20) NOT NULL DEFAULT 'user',
     IsActive BIT NOT NULL DEFAULT 1,
     CreatedDate DATETIME NOT NULL DEFAULT GETDATE(),
     LastModifiedDate DATETIME NULL,
     
-    CONSTRAINT CK_Role CHECK (Role IN ('Admin', 'Staff', 'User', 'Manager')),
+    CONSTRAINT CK_Role CHECK (Role IN ('admin', 'user')),
     CONSTRAINT CK_Email CHECK (Email IS NULL OR Email LIKE '%@%.%')
 );
 GO

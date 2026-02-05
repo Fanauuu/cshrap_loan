@@ -26,7 +26,7 @@ namespace WinFormsApp1
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
 
-            // Configure DataGridView
+            // Configure DataGridView - Clean styling without colored backgrounds
             dgvCustomers.AutoGenerateColumns = false;
             dgvCustomers.AllowUserToAddRows = false;
             dgvCustomers.AllowUserToDeleteRows = false;
@@ -35,7 +35,22 @@ namespace WinFormsApp1
             dgvCustomers.MultiSelect = false;
             dgvCustomers.BackgroundColor = Color.White;
             dgvCustomers.BorderStyle = BorderStyle.None;
-            dgvCustomers.CellFormatting += DgvCustomers_CellFormatting;
+            
+            // Remove colored backgrounds - clean styling only
+            dgvCustomers.DefaultCellStyle.BackColor = Color.White;
+            dgvCustomers.DefaultCellStyle.SelectionBackColor = Color.FromArgb(243, 244, 246);
+            dgvCustomers.DefaultCellStyle.SelectionForeColor = Color.FromArgb(31, 41, 55);
+            dgvCustomers.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
+            dgvCustomers.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.FromArgb(243, 244, 246);
+            
+            // Clean header styling
+            dgvCustomers.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            dgvCustomers.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(75, 85, 99);
+            dgvCustomers.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            
+            // Row headers clean
+            dgvCustomers.RowHeadersDefaultCellStyle.BackColor = Color.White;
+            dgvCustomers.RowHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(243, 244, 246);
 
             // Add columns
             dgvCustomers.Columns.Add(new DataGridViewTextBoxColumn
@@ -98,17 +113,25 @@ namespace WinFormsApp1
 
         private void DgvCustomers_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
+            // Clean styling - no colored backgrounds, just text styling
             if (dgvCustomers.Columns[e.ColumnIndex].Name == "Status")
             {
+                // Keep text color neutral, no background colors
+                e.CellStyle.ForeColor = Color.FromArgb(75, 85, 99);
+                e.CellStyle.BackColor = Color.White;
                 if (e.Value?.ToString() == "Active")
                 {
-                    e.CellStyle.ForeColor = Color.FromArgb(40, 167, 69);
-                    e.CellStyle.Font = new Font(dgvCustomers.Font, FontStyle.Bold);
+                    e.CellStyle.Font = new Font(dgvCustomers.Font, FontStyle.Regular);
                 }
                 else
                 {
-                    e.CellStyle.ForeColor = Color.Gray;
+                    e.CellStyle.Font = new Font(dgvCustomers.Font, FontStyle.Regular);
                 }
+            }
+            else
+            {
+                // Ensure all cells have white background
+                e.CellStyle.BackColor = Color.White;
             }
         }
 
@@ -147,7 +170,7 @@ namespace WinFormsApp1
 
             dgvCustomers.DataSource = null;
             dgvCustomers.DataSource = filteredCustomers;
-            lblCustomerCount.Text = $"Total Customers: {filteredCustomers.Count} (Filtered: {filteredCustomers.Count} of {_customers.Count})";
+            lblCustomerCount.Text = $"📊 Total: {filteredCustomers.Count} (Filtered: {filteredCustomers.Count} of {_customers.Count})";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -256,6 +279,16 @@ namespace WinFormsApp1
         {
             txtSearch.Clear();
             FilterCustomers();
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            TableExportService.ExportToExcel(dgvCustomers, "Customers");
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            TableExportService.ExportToPdf(dgvCustomers, "Customer List", "Customers");
         }
     }
 }

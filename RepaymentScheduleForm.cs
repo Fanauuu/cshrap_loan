@@ -1,6 +1,7 @@
 using WinFormsApp1.Models;
 using WinFormsApp1.Repository;
 using WinFormsApp1.services;
+using WinFormsApp1.Utils;
 
 namespace WinFormsApp1
 {
@@ -44,6 +45,7 @@ namespace WinFormsApp1
             dgvSchedule.AllowUserToAddRows = false;
             dgvSchedule.ReadOnly = true;
             dgvSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DataGridViewStyleHelper.ApplyCleanStyle(dgvSchedule);
 
             dgvSchedule.Columns.Add(new DataGridViewTextBoxColumn { Name = "DueDate", HeaderText = "Due Date", DataPropertyName = "DueDate", Width = 100, DefaultCellStyle = new DataGridViewCellStyle { Format = "yyyy-MM-dd" } });
             dgvSchedule.Columns.Add(new DataGridViewTextBoxColumn { Name = "MonthlyPayment", HeaderText = "Monthly Payment", DataPropertyName = "MonthlyPayment", Width = 130, DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" } });
@@ -145,6 +147,30 @@ namespace WinFormsApp1
                 {
                     MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToExcel(dgvSchedule, "RepaymentSchedule");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToPdf(dgvSchedule, "Repayment Schedule", "RepaymentSchedule");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

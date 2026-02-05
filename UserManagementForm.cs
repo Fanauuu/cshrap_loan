@@ -49,6 +49,7 @@ namespace WinFormsApp1
             dgvUsers.MultiSelect = false;
             dgvUsers.BackgroundColor = Color.White;
             dgvUsers.BorderStyle = BorderStyle.None;
+            DataGridViewStyleHelper.ApplyCleanStyle(dgvUsers);
             dgvUsers.CellFormatting += DgvUsers_CellFormatting;
             
             // Add columns
@@ -115,16 +116,10 @@ namespace WinFormsApp1
         {
             if (dgvUsers.Columns[e.ColumnIndex].Name == "Role")
             {
-                if (e.Value?.ToString() == "Admin")
-                {
-                    e.CellStyle.ForeColor = Color.FromArgb(220, 53, 69);
-                    e.CellStyle.Font = new Font(dgvUsers.Font, FontStyle.Bold);
-                }
-                else if (e.Value?.ToString() == "Manager")
-                {
-                    e.CellStyle.ForeColor = Color.FromArgb(0, 123, 255);
-                    e.CellStyle.Font = new Font(dgvUsers.Font, FontStyle.Bold);
-                }
+                // Clean/neutral role display (no colored badges)
+                e.CellStyle.ForeColor = Color.FromArgb(75, 85, 99);
+                e.CellStyle.BackColor = Color.White;
+                e.CellStyle.Font = new Font(dgvUsers.Font, FontStyle.Regular);
             }
 
             if (dgvUsers.Columns[e.ColumnIndex].Name == "IsActive")
@@ -257,6 +252,30 @@ namespace WinFormsApp1
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToExcel(dgvUsers, "Users");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnExportPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TableExportService.ExportToPdf(dgvUsers, "Users", "Users");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Export failed: {ex.Message}", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dgvUsers_DoubleClick(object sender, EventArgs e)
