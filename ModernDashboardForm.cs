@@ -83,7 +83,7 @@ namespace WinFormsApp1
             Guna2Panel sidebarHeader = new Guna2Panel
             {
                 Dock = DockStyle.Top,
-                Height = 92,
+                Height = 64,
                 BackColor = Color.Transparent,
                 FillColor = Color.White,
                 BorderRadius = 0
@@ -92,45 +92,36 @@ namespace WinFormsApp1
             Label lblAppName = new Label
             {
                 Text = "Loan Management",
-                Font = new Font("Segoe UI", 16F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 15F, FontStyle.Bold),
                 ForeColor = UIStyles.TextColor,
                 AutoSize = true,
-                Location = new Point(18, 18)
-            };
-
-            Label lblAppTag = new Label
-            {
-                Text = "System",
-                Font = new Font("Segoe UI", 10F),
-                ForeColor = UIStyles.TextSecondary,
-                AutoSize = true,
-                Location = new Point(18, 52)
+                Location = new Point(20, 20)
             };
 
             sidebarHeader.Controls.Add(lblAppName);
-            sidebarHeader.Controls.Add(lblAppTag);
             panelSidebar.Controls.Add(sidebarHeader);
 
-            // Sidebar Nav container
+            // Sidebar Nav container - scrollable so all items stay visible
             panelSidebarNav = new Guna2Panel
             {
                 Dock = DockStyle.Fill,
                 FillColor = Color.White,
-                Padding = new Padding(12, 10, 12, 10)
+                Padding = new Padding(16, 16, 16, 16),
+                AutoScroll = true
             };
 
             activeNavIndicator = new Guna2Panel
             {
-                Size = new Size(4, 44),
+                Size = new Size(4, 42),
                 FillColor = UIStyles.PrimaryColor,
                 BorderRadius = 2,
-                Location = new Point(8, 18)
+                Location = new Point(16, 14)
             };
             panelSidebarNav.Controls.Add(activeNavIndicator);
 
-            int menuTop = 6;
-            int menuHeight = 44;
-            int menuSpacing = 6;
+            const int menuHeight = 42;
+            const int menuSpacing = 6;
+            int menuTop = 14;
 
             btnDashboard = CreateModernMenuButton($"{Dashboard}  Dashboard", menuTop, true);
             menuTop += menuHeight + menuSpacing;
@@ -147,7 +138,6 @@ namespace WinFormsApp1
             if (_authService.IsAdmin(_currentUser))
             {
                 btnUsers = CreateModernMenuButton($"{UserManagement}  User Management", menuTop);
-                menuTop += menuHeight + menuSpacing;
             }
 
             panelSidebar.Controls.Add(panelSidebarNav);
@@ -155,14 +145,14 @@ namespace WinFormsApp1
             panelSidebarFooter = new Guna2Panel
             {
                 Dock = DockStyle.Bottom,
-                Height = 90,
+                Height = 68,
                 FillColor = Color.White,
-                Padding = new Padding(12, 10, 12, 12)
+                Padding = new Padding(16, 10, 16, 10)
             };
 
             btnLogout = CreateModernMenuButton($"{Logout}  Logout", 0, false, true);
-            btnLogout.Size = new Size(246, 44);
-            btnLogout.Location = new Point(12, 10);
+            btnLogout.Size = new Size(238, 42);
+            btnLogout.Location = new Point(24, 10);
             panelSidebarFooter.Controls.Add(btnLogout);
 
             panelSidebar.Controls.Add(panelSidebarFooter);
@@ -253,16 +243,16 @@ namespace WinFormsApp1
             var btn = new Guna2Button
             {
                 Text = text,
-                Location = new Point(12, top),
-                Size = new Size(246, 44),
+                Location = new Point(24, top),
+                Size = new Size(238, 42),
                 TextAlign = HorizontalAlignment.Left,
-                Font = new Font("Segoe UI", 11F),
+                Font = new Font("Segoe UI", 10.5F),
                 ForeColor = isLogout ? UIStyles.DangerColor : (isActive ? UIStyles.PrimaryColor : UIStyles.TextColor),
                 FillColor = isActive ? Color.FromArgb(240, 245, 255) : Color.Transparent,
                 BorderThickness = 0,
-                BorderRadius = 12,
+                BorderRadius = 10,
                 Cursor = Cursors.Hand,
-                TextOffset = new Point(20, 0)
+                TextOffset = new Point(28, 0)
             };
             btn.CheckedState.FillColor = Color.FromArgb(240, 245, 255);
             btn.CheckedState.ForeColor = UIStyles.PrimaryColor;
